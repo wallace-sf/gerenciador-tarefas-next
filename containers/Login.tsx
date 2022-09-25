@@ -1,23 +1,15 @@
 import { NextPage } from "next";
-import React, { ChangeEvent, useState, Dispatch, SetStateAction } from "react";
+import React, { ChangeEvent, useState } from "react";
 
-import { AccessTokenProps } from "../types/AccessTokenProps";
 import { executeRequest } from "../services/apiServices";
+import { AccessTokenProps } from "../types/AccessTokenProps";
 
 export const Login: NextPage<AccessTokenProps> = ({ setAccessToken }) => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const onChangeLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLogin(e.target.value);
-  };
-
-  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
-
-  const onSubmitLogin = async (e: ChangeEvent) => {
+  const doLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setError("");
 
@@ -25,16 +17,10 @@ export const Login: NextPage<AccessTokenProps> = ({ setAccessToken }) => {
       if (!login || !password) {
         return setError("Login ou senha incorretos");
       }
-
       const body = { login, password };
+      const result = await executeRequest("login", "POST", body);
 
-      const response = await executeRequest("login", "POST", body);
-
-      if (!response || !response.data) {
-        return setError("Ocorreu erro ao processar login, tente novamente.");
-      }
-
-      const { name, email, token } = response.data;
+      const { name, email, token } = result.data;
 
       localStorage.setItem("accessToken", token);
       localStorage.setItem("userName", name);
@@ -47,22 +33,22 @@ export const Login: NextPage<AccessTokenProps> = ({ setAccessToken }) => {
         return setError(error?.response?.data?.error);
       }
 
-      setError("Ocorreu erro ao processar login, tente novamente.");
+      setError("Ocorreu erro ao processar login, tente novamente");
     }
   };
 
   return (
     <div className="container-login">
       <img src="/assets/images/logo.svg" alt="Logo Fiap" className="logo" />
-      <form onSubmit={onSubmitLogin}>
-        <p className="error">{error}</p>
+      <form>
+        <p className="error"> {error}</p>
         <div className="input-block">
           <img src="/assets/images/mail.svg" alt="Informe seu login" />
           <input
             type="text"
             placeholder="Login"
             value={login}
-            onChange={onChangeLogin}
+            onChange={(event) => setLogin(event.target.value)}
           />
         </div>
         <div className="input-block">
@@ -71,10 +57,12 @@ export const Login: NextPage<AccessTokenProps> = ({ setAccessToken }) => {
             type="password"
             placeholder="Senha"
             value={password}
-            onChange={onChangePassword}
+            onChange={(event) => setPassword(event.target.value)}
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="button" onClick={doLogin}>
+          Login
+        </button>
       </form>
     </div>
   );

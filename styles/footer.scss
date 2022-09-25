@@ -1,6 +1,7 @@
 @import "./config.scss";
 
 .container-footer {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,17 +14,18 @@
 
   button {
     padding-left: 15px;
+    padding-top: 16px;
+    padding-bottom: 16px;
     display: flex;
     flex-direction: row;
     align-items: center;
     background-color: $lightGrayColor;
-    border-width: 1px;
-    border-style: solid;
-    border-color: $primaryColor;
-    color: white;
+    border: none;
+    color: $primaryColor;
     font-size: 16px;
     margin-top: 30px;
     width: 96%;
+    border-radius: 12px;
 
     img {
       margin-right: 15px;

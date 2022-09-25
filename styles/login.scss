@@ -33,23 +33,21 @@
       &:focus {
         border-bottom: 1px solid $primaryColor;
       }
-
       &::placeholder {
         color: $mediumGrayColor;
         opacity: 1;
       }
-
       &::-ms-input-placeholder {
         color: $mediumGrayColor;
       }
-
-      &:-ms-input-placeholder {
+      &:-ms-input::placeholder {
         color: $mediumGrayColor;
       }
     }
   }
 
   button {
+    margin-top: 48px;
     width: 100%;
     height: 56px;
     background-color: $primaryColor;
@@ -62,7 +60,7 @@
   form {
     padding-left: 10px;
     padding-right: 10px;
-    border: 0;
+    border: 0px;
 
     p {
       color: $errorColor;
@@ -78,10 +76,10 @@
     justify-content: space-around;
 
     .logo {
-      width: 520px;
       height: 139.95px;
+      width: 520px;
       object-fit: contain;
-      margin: 0;
+      margin: 0px;
     }
 
     form {
